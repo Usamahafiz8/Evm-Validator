@@ -1,0 +1,156 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  /* background: linear-gradient(#162c54, #2f5784); */
+  background: #2f5784;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ///// */
+html {
+  height: 100%;
+}
+
+.block {
+  position: relative;
+  min-width: 40% ;
+  padding: 50px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  border-radius: 8px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  /* Blue effect */
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.1px);
+  -webkit-backdrop-filter: blur(7.1px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.block .input-box {
+  position: relative;
+  width: 100%;
+}
+.block h1 {
+  display: block;
+  margin: 0 0 10px;
+  color: black;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+.block .input-box input {
+  outline: none;
+  display: block;
+  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  transition: 0.3s ease;
+}
+
+.block .input-box label {
+  display: block;
+  margin: 0 0 10px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.input-box select {
+  outline: none;
+  display: block;
+  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  transition: 0.3s ease;
+}
+.input-box select option {
+  transition: 0.3s ease;
+  margin: 0 0 10px;
+  outline: none;
+  background: grey;
+  align-content: left;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 20px;
+  color: black;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+
+.button button {
+  margin: 0 0 10px;
+  outline: none;
+  background: grey;
+  align-content: left;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 20px;
+  color: black;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.input-box button {
+  outline: none;
+  display: block;
+  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  line-height: inherit;
+  transition: 0.3s ease;
+}
