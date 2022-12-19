@@ -26,7 +26,7 @@ html {
   position: relative;
   min-width: 40% ;
   padding: 50px;
-  background: #fff;
+  background: rgb(240, 245, 244);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,12 +35,12 @@ html {
   border-radius: 8px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
   /* Blue effect */
-  background: rgba(255, 255, 255, 0.45);
+  /* background: rgba(255, 255, 255, 0.45);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(7.1px);
   -webkit-backdrop-filter: blur(7.1px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05); */
 }
 
 .block .input-box {
@@ -105,7 +105,7 @@ html {
   transition: 0.3s ease;
   margin: 0 0 10px;
   outline: none;
-  background: grey;
+  background: rgba(0, 0, 0, 0.1);
   align-content: left;
   width: 100%;
   border: 0;
@@ -142,12 +142,12 @@ html {
   outline: none;
   display: block;
   background: rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: auto;
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
   padding: 12px 20px;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgb(57, 107, 0);
   font-family: inherit;
   font-size: inherit;
   font-weight: 500;

@@ -2,21 +2,25 @@ import styles from "../styles/Home.module.css";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "../components/wallet/connectors";
 import TokenList from "../assets/token-list.json";
-import { useState } from "react";
+import Wallets from "../assets/wallet-address.json";
+import { useEffect, useState } from "react";
 import useBalance from "../actions/useBalance";
 
 export default function Home() {
-  const [selectedToken, setSelectedToken] = useState(TokenList[0]);
+  const [selectedToken, setSelectedToken] = useState(TokenList[1]);
+  const [selectedWallet, setSelectedWallet] = useState(Wallets[0]);
 
   const { activate, account } = useWeb3React();
   const [checkAccount, setCheckAccount] = useState("");
 
-  const accountHandler = (e) => {
-    setCheckAccount(e.target.value);
-  };
+  useEffect(() => {
+    setCheckAccount(selectedWallet.address);
+  }, [selectedWallet]);
+
+  // const accountHandler = (e) => {};
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(account);
+    // console.log(account);
   };
   const [balance] = useBalance(
     selectedToken.address,
@@ -24,7 +28,9 @@ export default function Home() {
     checkAccount
   );
   console.log("balance ", balance);
-  console.log("balance ", balance);
+  console.log("checkAccount ", checkAccount);
+  console.log("selectToken", selectedToken);
+  console.log("selectWallet", selectedWallet);
 
   return (
     <div className={styles.container}>
@@ -32,13 +38,31 @@ export default function Home() {
         <div>
           <h1>Wallet Balance Checker</h1>
         </div>
-        <div className="connect-button"></div>
         <div className="input-box">
-          <label>Enter Wallet Address :</label>
+          <button onClick={() => activate(injected)}>Connect to Wallet</button>
+          <hr color="green" />
+          {account ? (
+            <i>Your Wallet : {account}</i>
+          ) : (
+            <i>No wallet is connected</i>
+          )}
+          <hr color="green" />
+          <br />
+          <label>Select Validator Wallet Address :</label>
+          <div className="connect-button"></div>
           <form onSubmit={submitHandler}>
-            <input value={account} onChange={accountHandler} type="text" />
+            {/* <input value={checkAccount} onChange={accountHandler} type="text" placeholder="0x"/>
+            <br /> */}
+            <select
+              onChange={(e) => setSelectedWallet(Wallets[e.target.value])}
+            >
+              {Wallets.map((wallet, index) => (
+                <option value={index} key={wallet.address}>
+                  {wallet.name}
+                </option>
+              ))}
+            </select>
           </form>
-
           <br />
           <label>Select the Token</label>
           <select onChange={(e) => setSelectedToken(TokenList[e.target.value])}>
@@ -49,12 +73,10 @@ export default function Home() {
             ))}
           </select>
           <br />
-          <label> Balance : {balance}</label>
+          <label>
+            <h2>{`Balance : $${balance}`}</h2>
+          </label>
           <br />
-          <hr color="black" />
-          <button onClick={() => activate(injected)}>Connect to Wallet</button>
-
-          {account ? `Connected wallet: ${account}` : "Wallet not connected"}
         </div>
       </div>
     </div>

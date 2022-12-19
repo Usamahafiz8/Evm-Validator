@@ -1,8 +1,8 @@
 [
   {
-    "name": "Dai Stablecoin",
-    "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    "symbol": "DAI",
+    "name": "Elrond",
+    "address": "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa",
+    "symbol": "EGLD",
     "decimals": 18
   },
   {
@@ -12,15 +12,15 @@
     "decimals": 18
   },
   {
-    "name": "Wrapped Ether",
-    "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    "symbol": "WETH",
+    "name": "The Secret Network",
+    "address": "0xc778417E063141139Fce010982780140Aa0cD5Ab",
+    "symbol": "SCRT",
     "decimals": 18
   },
   {
-    "name": "USDCoin",
-    "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    "symbol": "USDC",
-    "decimals": 6
+    "name": "The Open Network",
+    "address": "0xe9fB56E32743f66ed2859c66E4D9A94657Fce17B",
+    "symbol": "TON",
+    "decimals": 18
   }
 ]
