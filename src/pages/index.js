@@ -5,9 +5,10 @@ import TokenList from "../assets/token-list.json";
 import Wallets from "../assets/wallet-address.json";
 import { useEffect, useState } from "react";
 import useBalance from "../actions/useBalance";
+import axios from 'axios';
 
 export default function Home() {
-  const [selectedToken, setSelectedToken] = useState(TokenList[1]);
+  const [selectedToken, setSelectedToken] = useState(TokenList[0]);
   const [selectedWallet, setSelectedWallet] = useState(Wallets[0]);
 
   const { activate, account } = useWeb3React();
@@ -16,6 +17,23 @@ export default function Home() {
   useEffect(() => {
     setCheckAccount(selectedWallet.address);
   }, [selectedWallet]);
+
+  const getElrondBal = async () => {
+    const api = 'https://gateway.elrond.com/address/:bech32Address/balance'
+    const response = await axios.get(`https://gateway.elrond.com/address/${checkAccount}/balance`)
+    .then(response => {
+      const bal = response.data.balance;
+      console.log("balllll", bal);
+      
+    })
+    .catch(err => console.log(err));
+  }
+
+  useEffect(()=>{
+    if (selectedToken.name === 'Elrond'){
+      getElrondBal();
+    }
+    },[selectedToken])
 
   // const accountHandler = (e) => {};
   const submitHandler = (e) => {

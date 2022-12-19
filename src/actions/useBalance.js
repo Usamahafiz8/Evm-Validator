@@ -24,7 +24,7 @@ export default function useBalance(tokenAddress, decimals, checkAccount) {
 
         try {
           if (tokenAddress === ZERO_ADDRESS) {
-            console.log("running zero address with account ", checkAccount, account, library);
+            console.log("running zero address with account ", checkAccount);
 
             library.eth
               .getBalance(checkAccount)
