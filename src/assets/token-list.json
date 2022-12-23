@@ -15,12 +15,12 @@
     "name": "The Secret Network",
     "address": "0xc778417E063141139Fce010982780140Aa0cD5Ab",
     "symbol": "SCRT",
-    "decimals": 18
+    "decimals": 6
   },
   {
     "name": "The Open Network",
     "address": "0xe9fB56E32743f66ed2859c66E4D9A94657Fce17B",
     "symbol": "TON",
-    "decimals": 18
+    "decimals": 9
   }
 ]

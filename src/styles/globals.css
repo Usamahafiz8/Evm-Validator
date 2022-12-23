@@ -4,8 +4,6 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  /* background: linear-gradient(#162c54, #2f5784); */
-  background: #2f5784;
 }
 
 a {
@@ -16,8 +14,6 @@ a {
 * {
   box-sizing: border-box;
 }
-
-/* ///// */
 html {
   height: 100%;
 }
@@ -33,14 +29,6 @@ html {
   align-items: center;
   gap: 25px;
   border-radius: 8px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-  /* Blue effect */
-  /* background: rgba(255, 255, 255, 0.45);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(7.1px);
-  -webkit-backdrop-filter: blur(7.1px);
-  border: 1px solid rgba(255, 255, 255, 0.05); */
 }
 
 .block .input-box {
@@ -141,8 +129,8 @@ html {
 .input-box button {
   outline: none;
   display: block;
-  background: rgba(0, 0, 0, 0.1);
-  width: auto;
+  background: rgba(0, 0, 0, 0.068);
+  width: 100%;
   border: 0;
   border-radius: 4px;
   box-sizing: border-box;
@@ -153,4 +141,12 @@ html {
   font-weight: 500;
   line-height: inherit;
   transition: 0.3s ease;
+}
+
+.isValid {
+  color: rgb(57, 107, 0);
+}
+
+.isNotValid {
+  color : red
 }

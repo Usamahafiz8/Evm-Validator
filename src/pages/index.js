@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import useBalance from "../actions/useBalance";
 
 export default function Home() {
-  const [selectedToken, setSelectedToken] = useState(TokenList[0]);
+  const [selectedToken, setSelectedToken] = useState(TokenList[1]);
   const [selectedWallet, setSelectedWallet] = useState(Wallets[0]);
 
   const { activate, account } = useWeb3React();
@@ -17,36 +17,16 @@ export default function Home() {
     setCheckAccount(selectedWallet.address);
   }, [selectedWallet]);
 
-  
-  // useEffect(()=>{
-  //   const getElrondBal = async () => {
-  //     // const api = 'https://gateway.elrond.com/address/:bech32Address/balance'
-  //     const response = await axios.get(`https://gateway.elrond.com/address/${checkAccount}/balance`)
-      
-  //     console.log("response", response);
-  //   }
-  //   if (selectedToken.name === 'Elrond'){
-  //     console.log("triggered on change elrond");
-  //     getElrondBal();
-  //   }
-  // },[selectedToken, selectedWallet])
-
-  // const accountHandler = (e) => {};
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log(account);
   };
   const [balance] = useBalance(
     selectedToken.address,
     selectedToken.decimals,
     checkAccount,
-    selectedToken.name
+    selectedToken.symbol,
+    selectedWallet.name
   );
-  console.log("balance ", balance);
-  // console.log("checkAccount ", checkAccount);
-  // console.log("selectToken", selectedToken);
-  // console.log("selectWallet", selectedWallet);
-  // console.log("selectWallet", selectedWallet);
 
   return (
     <div className={styles.container}>
@@ -56,19 +36,20 @@ export default function Home() {
         </div>
         <div className="input-box">
           <button onClick={() => activate(injected)}>Connect to Wallet</button>
-          <hr color="green" />
+          <hr className={account ? "isValid" : "isNotValid"} />
           {account ? (
-            <i>Your Wallet : {account}</i>
+            <i>
+              Your Wallet :{" "}
+              <i className={account ? "isValid" : "isNotValid"}>{account}</i>
+            </i>
           ) : (
-            <i>No wallet is connected</i>
+            <i className={account ? "isValid" : "isNotValid"}>
+              No Wallet is connected
+            </i>
           )}
-          <hr color="green" />
-          <br />
+          <hr className={account ? "isValid" : "isNotValid"} />
           <label>Select Validator Wallet Address :</label>
-          <div className="connect-button"></div>
           <form onSubmit={submitHandler}>
-            {/* <input value={checkAccount} onChange={accountHandler} type="text" placeholder="0x"/>
-            <br /> */}
             <select
               onChange={(e) => setSelectedWallet(Wallets[e.target.value])}
             >
@@ -83,7 +64,7 @@ export default function Home() {
           <label>Select the Token</label>
           <select onChange={(e) => setSelectedToken(TokenList[e.target.value])}>
             {TokenList.map((token, index) => (
-              <option value={index} key={token.address}>
+              <option value={index} key={token.address} selected={token.name === "Ethereum"}>
                 {token.name}
               </option>
             ))}
@@ -92,7 +73,9 @@ export default function Home() {
           <label>
             <h2>{`Balance : $${balance}`}</h2>
           </label>
-          <br />
+          <span className={balance ? "isValid" : "isNotValid"}>
+            {balance ? "Address matched." : "Please select the correct token."}
+          </span>
         </div>
       </div>
     </div>
