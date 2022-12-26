@@ -1,14 +1,14 @@
 [
   {
-    "name": "Elrond",
-    "address": "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa",
-    "symbol": "EGLD",
-    "decimals": 18
-  },
-  {
     "name": "Ethereum",
     "address": "0x0000000000000000000000000000000000000000",
     "symbol": "ETH",
+    "decimals": 18
+  },
+  {
+    "name": "Elrond",
+    "address": "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa",
+    "symbol": "EGLD",
     "decimals": 18
   },
   {

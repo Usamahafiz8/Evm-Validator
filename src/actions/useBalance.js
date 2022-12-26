@@ -6,47 +6,26 @@ import BN from "bn.js";
 import { useWeb3React } from "@web3-react/core";
 import axios from "axios";
 import {
-  GetUSDExchangeRate,
-  GetEGLDExchangeRate,
-  GetTONExchangeRate,
-  GetSCRTExchangeRate,
+  getUsdExchangeRate,
+  getEgldExchangeRate,
+  getTonExchangeRate,
+  getScrtExchangeRate,
 } from "../assets/api";
 
 export default function useBalance(
   tokenAddress,
   decimals,
   checkAccount,
-  symbol,
-  walletName
+  symbol
 ) {
   const [balance, setBalance] = useState(0);
-  const [ethExRate, setEthExRate] = useState();
-  const [egldExRate, setEgldExRate] = useState();
-  const [tonExRate, setTonExRate] = useState();
-  const [scrtExRate, setScrtExRate] = useState();
+  const [ethExRate, setEthExRate] = useState(0);
+  const [egldExRate, setEgldExRate] = useState(0);
+  const [tonExRate, setTonExRate] = useState(0);
+  const [scrtExRate, setScrtExRate] = useState(0);
   const { account, library } = useWeb3React();
 
-  useEffect(() => {
-    GetUSDExchangeRate().then((res) => {
-      setEthExRate(parseFloat(res));
-      // console.log("usd", parseFloat(res));
-    });
-    GetEGLDExchangeRate().then((res) => {
-      setEgldExRate(parseFloat(res));
-      // console.log("eth", parseFloat(res));
-    });
-    GetTONExchangeRate().then((res) => {
-      setTonExRate(parseFloat(res));
-      // console.log("eth", parseFloat(res));
-    });
-    GetSCRTExchangeRate().then((res) => {
-      setScrtExRate(parseFloat(res));
-      // console.log("eth", parseFloat(res));
-    });
-  }, []);
-
-  useEffect(() => {
-    let isCancelled = false;
+  const getEthBalance = async () => {
 
     function getBalance() {
       return new Promise((resolve) => {
@@ -88,113 +67,137 @@ export default function useBalance(
         }
       });
     }
+    const ethBlnc = await getBalance();
+    const pow = new BigNumber("10").pow(new BigNumber(decimals));
+    const decimalBal = web3BNToFloatString(
+      ethBlnc,
+      pow,
+      4,
+      BigNumber.ROUND_DOWN
+    );
+    const convertedBalance = decimalBal * ethExRate;
+    setBalance(convertedBalance);
+  };
 
-    const getEthBalance = async () => {
-      const ethBlnc = await getBalance();
-      if (!isCancelled) {
+  const getScrtBal = async () => {
+    await axios
+      .get(
+        `https://proxy.atomscan.com/secret-lcd/cosmos/bank/v1beta1/balances/${checkAccount}`
+      )
+      .then((response) => {
+        const len = response.data.balances.length - 1;
+        const scrtBal = response.data.balances[len].amount;
         const pow = new BigNumber("10").pow(new BigNumber(decimals));
-        const decimalBal = web3BNToFloatString(
-          ethBlnc,
+        const decimalBalance = web3BNToFloatString(
+          scrtBal,
+
           pow,
           4,
           BigNumber.ROUND_DOWN
         );
-        const convertedBalance = decimalBal * ethExRate;
+        const convertedBalance = decimalBalance * scrtExRate;
         setBalance(convertedBalance);
-      }
-    };
-    const getElrondBal = async () => {
-      await axios
-        .get(`https://gateway.elrond.com/address/${checkAccount}/balance`)
-        .then((response) => {
-          const egldBal = response.data.data.balance;
-          const pow = new BigNumber("10").pow(new BigNumber(decimals));
-          const decimalBalance = web3BNToFloatString(
-            egldBal,
-            pow,
-            4,
-            BigNumber.ROUND_DOWN
-          );
-          const convertedBalance = decimalBalance * egldExRate;
-          setBalance(convertedBalance);
-        })
-        .catch((err) => {
-          console.log(err);
-          setBalance(0);
-        });
-    };
-    const getTonBal = async () => {
-      await axios
-        .get(
-          `https://toncenter.com/api/v2/getAddressBalance?address=${checkAccount}`
-        )
-        .then((response) => {
-          const tonBal = response.data.result;
-          const pow = new BigNumber("10").pow(new BigNumber(decimals));
-          const decimalBalance = web3BNToFloatString(
-            tonBal,
-            pow,
-            4,
-            BigNumber.ROUND_DOWN
-          );
-          const convertedBalance = decimalBalance * tonExRate;
-          setBalance(convertedBalance);
-        })
-        .catch((err) => {
-          console.log(err);
-          setBalance(0);
-        });
-    };
-    const getScrtBal = async () => {
-      await axios
-        .get(
-          `https://proxy.atomscan.com/secret-lcd/cosmos/bank/v1beta1/balances/${checkAccount}`
-        )
-        .then((response) => {
-          const len = response.data.balances.length - 1;
-          const scrtBal = response.data.balances[len].amount;
-          const pow = new BigNumber("10").pow(new BigNumber(decimals));
-          const decimalBalance = web3BNToFloatString(
-            scrtBal,
-            pow,
-            4,
-            BigNumber.ROUND_DOWN
-          );
-          const convertedBalance = decimalBalance * scrtExRate;
-          setBalance(convertedBalance);
-        })
-        .catch((err) => {
-          console.log(err);
-          setBalance(0);
-        });
-    };
+      })
+      .catch((err) => {
+        console.log(err);
+        setBalance(0);
+      });
+  };
+
+  const getTonBal = async () => {
+    await axios
+      .get(
+        `https://toncenter.com/api/v2/getAddressBalance?address=${checkAccount}`
+      )
+      .then((response) => {
+        const tonBal = response.data.result;
+        const pow = new BigNumber("10").pow(new BigNumber(decimals));
+        const decimalBalance = web3BNToFloatString(
+          tonBal,
+          pow,
+          4,
+          BigNumber.ROUND_DOWN
+        );
+        const convertedBalance = decimalBalance * tonExRate;
+        setBalance(convertedBalance);
+      })
+      .catch((err) => {
+        console.log(err);
+        setBalance(0);
+      });
+  };
+
+  const getElrondBal = async () => {
+    await axios
+      .get(`https://gateway.elrond.com/address/${checkAccount}/balance`)
+      .then((response) => {
+        const egldBal = response.data.data.balance;
+        const pow = new BigNumber("10").pow(new BigNumber(decimals));
+        const decimalBalance = web3BNToFloatString(
+          egldBal,
+          pow,
+          4,
+          BigNumber.ROUND_DOWN
+        );
+        const convertedBalance = decimalBalance * egldExRate;
+        setBalance(convertedBalance);
+      })
+      .catch((err) => {
+        console.log(err);
+        setBalance(0);
+      });
+  };
+
+  useEffect(() => {
+    getUsdExchangeRate().then((res) => {
+      setEthExRate(parseFloat(res));
+      // console.log("usd", parseFloat(res));
+    });
+    getEgldExchangeRate().then((res) => {
+      setEgldExRate(parseFloat(res));
+      // console.log("eth", parseFloat(res));
+    });
+    getTonExchangeRate().then((res) => {
+      setTonExRate(parseFloat(res));
+      // console.log("eth", parseFloat(res));
+    });
+    getScrtExchangeRate().then((res) => {
+      setScrtExRate(parseFloat(res));
+      // console.log("eth", parseFloat(res));
+    });
+  }, []);
+
+  useEffect(() => {
     if (symbol === "ETH") {
       getEthBalance();
     }
-    if (symbol === "EGLD") {
-      getElrondBal();
-    }
-    if (symbol === "TON") {
-      getTonBal();
-    }
-    if (symbol === "SCRT") {
-      getScrtBal();
-    }
-    return () => {
-      isCancelled = true;
-    };
   }, [
     tokenAddress,
     library,
-    decimals,
     account,
+    decimals,
     checkAccount,
     symbol,
     ethExRate,
-    egldExRate,
-    tonExRate,
-    walletName,
   ]);
+
+  useEffect(() => {
+    if (symbol === "SCRT") {
+      getScrtBal();
+    }
+  }, [decimals, checkAccount, symbol, scrtExRate]);
+
+  useEffect(() => {
+    if (symbol === "TON") {
+      getTonBal();
+    }
+  }, [decimals, checkAccount, symbol, tonExRate]);
+
+  useEffect(() => {
+    if (symbol === "EGLD") {
+      getElrondBal();
+    }
+  }, [decimals, checkAccount, symbol, egldExRate]);
 
   return [balance];
 }
